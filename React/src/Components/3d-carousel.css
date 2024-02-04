@@ -1,0 +1,42 @@
+.slide {
+    transform: scale(0.3);
+    transition: transform 1000ms;
+    opacity: 0.1;
+}
+
+.activeSlide {
+    transform: scale(0.7);
+    opacity: 1.0;
+    z-index: 100;
+    transition: transform 1000ms;
+    transition-delay: 600ms;
+}
+
+.slideWrapper {
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    height: 650px;
+    border: 2px solid white;    
+    box-shadow: 2px 0px 3px 3px whitesmoke;
+}
+
+.prevArrow {
+    position: absolute;
+    top: 40%;
+    left: 60px;
+    z-index: 100;
+    cursor: pointer;
+    color: whitesmoke;
+    font-size: 4rem;
+}
+
+.nextArrow {
+    position: absolute;
+    top: 40%;
+    right: 60px;
+    z-index: 100;
+    cursor: pointer;
+    color: whitesmoke;
+    font-size: 4rem;
+}
