@@ -6,9 +6,31 @@ export const Rules = () => {
   const [rulesData, setRulesData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [post, setPost] = useState('');
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => { 
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const decodedToken = decodeToken(token);
+        
+        setUserData(decodedToken);
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
+  }, []);
+
+  const decodeToken = (token) => {
+    const [header, payload, signature] = token.split('.');
+    const decodedPayload = atob(payload);
+
+    return JSON.parse(decodedPayload);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8000/all-rules');
         setRulesData(response.data);
@@ -64,7 +86,8 @@ export const Rules = () => {
                 </div>
               ))}
             </ul>
-            <button onClick={() => setShowPopup(true)}>Add Rule</button>
+            {userData && (userData.role === "admin") ? (<button onClick={() => setShowPopup(true)}>Add Rule</button>) : null}
+
           </div>
         </main>
         <RulesPopup trigger={showPopup} setTrigger={setShowPopup}>

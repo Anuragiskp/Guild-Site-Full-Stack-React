@@ -6,15 +6,13 @@ const Rule = require('./Schemas/RuleData');
 const User = require('./Schemas/Users');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
-const { adminAuth, userAuth } = require("./auth.js");
 
 const app = express();
 const dbURI = 'mongodb+srv://Khushal_iskp:anurag1976@personalserver.gtmeqbe.mongodb.net/?retryWrites=true&w=majority&appName=PersonalServer';
 const jwtSecret = "2add7fc6117e9acc6654951133a649c54068e23cea8875b48a12cb54f769c7035844f1";
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
-app.get("/admin", adminAuth, (req, res) => res.send("Admin Route"));
-app.get("/basic", userAuth, (req, res) => res.send("User Route"));
+
 
 mongoose.connect(dbURI)
   .then(result => {
@@ -83,12 +81,6 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-app.get('/signup', (req, res) => {
-  User.find().sort({ createdAt: -1 })
-    .then(result => {
-      res.json(result);
-    })
-})
 
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -108,17 +100,18 @@ app.post('/login', async (req, res) => {
             { id: user._id, email, role: user.role },
             jwtSecret,
             {
-              expiresIn: maxAge, // 3hrs in sec
+              expiresIn: maxAge, 
             }
           );
           res.cookie("jwt", token, {
             httpOnly: true,
-            maxAge: maxAge * 1000, // 3hrs in ms
+            maxAge: maxAge * 1000, 
           });
           res.status(201).json({
             message: "User successfully Logged in",
-            user: user._id,
+            token 
           });
+
         }else {
           res.status(410).json({ message: "Login not successful" });
         }})
@@ -131,9 +124,28 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/login', (req, res) => {
-  User.find().sort({ createdAt: -1 })
-    .then(result => {
-      res.json(result);
+
+const userAuth = (req, res, next) => {
+  const token = req.cookies.jwt
+  if (token) {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (err) {
+        return res.status(401).json({ message: "Not authorized" })
+      } else {
+        if (decodedToken.role !== "admin" && decodedToken.role !== "Basic") {
+          return res.status(401).json({ message: "Not authorized" })
+        } else {
+          next()
+        }
+      }
     })
-})
+  } else {
+    return res
+      .status(401)
+      .json({ message: "Not authorized, token not available" })
+  }
+}
+
+app.get('/protected', userAuth, (req, res) => {
+  res.json({ message: 'Protected route accessed successfully', user: req.user });
+});

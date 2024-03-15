@@ -54,6 +54,9 @@ export const Signup = () => {
                     'Content-Type': 'application/json'
                 }
             });
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+
             if (response.status === 201) {
                 alert("User has been logged in!!!!");
                 setEmail("");
