@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
     return ( 
         <header className="header">
-          <a href="/Site.html" className="logo-head" alt="Logo">
+          <a className="logo-head" alt="Logo"> 
             Calm Calamity
           </a>
           <nav className="nav-bar">
@@ -23,9 +24,7 @@ export const Header = () => {
               <li>
                 <a href="#mail">Mail Us</a>
               </li>
-              <li>
-                <a href="#login">Login</a>
-              </li>
+              <Link to="/Signup" className="login">Login</Link>
             </ul>
           </nav>
         </header>

@@ -4,8 +4,9 @@ import { Header } from './Components/header';
 import { Welcome } from './Components/welcome';
 import { Services } from './Components/services';
 import { Team } from './Components/team';
-import { Rules } from './Components/rules';
+import { Rules } from './Components/rules_new';
 import { Moments } from './Components/moments';
+
 
 function App() {
   return (

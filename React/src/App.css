@@ -13,7 +13,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-
+ 
 .Logo {
   text-align: center;
 }
@@ -50,6 +50,10 @@ body {
   font-weight: 900;
 }
 
+.header .nav-bar{
+  padding-right: 3em;
+}
+
 .header .nav-bar ul {
   list-style: none;
   display: flex;
@@ -69,6 +73,29 @@ body {
   font-weight: bold;
   font-size: 1.35em;
   position: relative;
+}
+
+.header .nav-bar .login{
+  text-decoration: none;
+  color: whitesmoke;
+  font-weight: bold;
+  font-size: 1.35em;
+  position: relative;
+}
+
+.header .nav-bar .login::before{
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: #FF9800;
+  transition: 0.3s;
+}
+
+.header .nav-bar .login:hover::before{
+  width: 100%;
 }
 
 .header .nav-bar ul li a::before {
@@ -283,6 +310,31 @@ body {
   padding-top: 50px;
   padding-right: 50px;
 }
+
+.rules-header.h4{
+  color: whitesmoke;
+}
+
+.rules-content a,p{
+  color: whitesmoke;
+}
+
+.rules-list li{
+  color: whitesmoke;
+}
+
+.rules-prompt::after{
+  content: '';
+  display: block;
+  height: 1px;
+  width: 100%;
+  background-image: linear-gradient(to right, #fff 10%, transparent 10%, transparent 20%, #fff 20%, #fff 30%, transparent 30%, transparent 40%, #fff 40%, #fff 50%, transparent 50%, transparent 60%, #fff 60%, #fff 70%, transparent 70%, transparent 80%, #fff 80%, #fff 90%, transparent 90%, transparent 100%);
+  background-size: 20px 1px;
+  position: relative;
+  top: -1px;
+  margin-top: 20px;
+}
+
 
 .moments-title h3{
   font-size: 4em;
